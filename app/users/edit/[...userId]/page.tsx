@@ -37,6 +37,8 @@ export default function page({
 
       formik.setFieldValue("name", res.data.name);
       formik.setFieldValue("email", res.data.email);
+
+      return res;
     },
   });
 
@@ -51,7 +53,11 @@ export default function page({
 
   return (
     <div>
-      <h1 className="text-center">Test</h1>
+      <h1 className="text-center">
+        {userUpdateQuery.isError
+          ? (userUpdateQuery.error as any)?.response.data.message
+          : "Update data anda"}
+      </h1>
 
       <form onSubmit={formik.handleSubmit} className="max-w-sm mx-auto">
         <div className="mb-5">

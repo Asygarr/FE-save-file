@@ -3,6 +3,7 @@
 import { axiosInstance } from "@/lib/axios-instance";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
+import { useState } from "react";
 
 export default function page() {
   const formik = useFormik({
@@ -21,7 +22,7 @@ export default function page() {
         password,
         confPassword,
       });
-      
+
       formik.resetForm();
     },
   });
@@ -38,7 +39,9 @@ export default function page() {
   return (
     <div>
       <h1 className="text-center">
-        {userQueryAdd.isError ? userQueryAdd.error.message : 'Masukkan data anda'}
+        {userQueryAdd.isError
+          ? (userQueryAdd.error as any)?.response.data.message
+          : "Masukkan data anda"}
       </h1>
 
       <form onSubmit={formik.handleSubmit} className="max-w-sm mx-auto">
