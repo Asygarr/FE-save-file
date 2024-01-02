@@ -1,6 +1,6 @@
 "use client";
 
-import { axiosInstance } from "@/lib/axios-instance";
+import { axiosInstance } from "@/libs/axios-instance";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
@@ -18,7 +18,8 @@ export default function usersPage() {
     mutationKey: ["user"],
     mutationFn: async (uuid: string) => {
       await axiosInstance.delete(`/users/${uuid}`);
-
+    },
+    onSuccess: () => {
       userQuery.refetch();
     },
   });

@@ -1,9 +1,9 @@
 "use client";
 
-import { axiosInstance } from "@/lib/axios-instance";
+import { axiosInstance } from "@/libs/axios-instance";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { userSchema } from "@/libs/validation-schema-user";
 
 export default function page() {
   const formik = useFormik({
@@ -25,6 +25,7 @@ export default function page() {
 
       formik.resetForm();
     },
+    // validationSchema: userSchema,
   });
 
   const userQueryAdd = useMutation({
