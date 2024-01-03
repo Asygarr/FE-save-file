@@ -17,15 +17,15 @@ export default function page() {
       const { name, email, password, confPassword } = values;
 
       userQueryAdd.mutate({
-        name,
         email,
+        name,
         password,
         confPassword,
       });
 
       formik.resetForm();
     },
-    // validationSchema: userSchema,
+    validationSchema: userSchema,
   });
 
   const userQueryAdd = useMutation({
@@ -59,6 +59,9 @@ export default function page() {
             placeholder="nama kamu"
             required
           />
+          {formik.errors.name && formik.touched.name ? (
+            <div className="text-red-500 text-sm">{formik.errors.name}</div>
+          ) : null}
         </div>
         <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -73,6 +76,9 @@ export default function page() {
             placeholder="name@gmail.com"
             required
           />
+          {formik.errors.email && formik.touched.email ? (
+            <div className="text-red-500 text-sm">{formik.errors.email}</div>
+          ) : null}
         </div>
         <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -87,6 +93,9 @@ export default function page() {
             placeholder="password kamu"
             required
           />
+          {formik.errors.password && formik.touched.password ? (
+            <div className="text-red-500 text-sm">{formik.errors.password}</div>
+          ) : null}
         </div>
         <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -101,6 +110,11 @@ export default function page() {
             placeholder="ulangi password kamu"
             required
           />
+          {formik.errors.confPassword && formik.touched.confPassword ? (
+            <div className="text-red-500 text-sm">
+              {formik.errors.confPassword}
+            </div>
+          ) : null}
         </div>
         <button
           type="submit"
