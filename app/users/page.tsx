@@ -2,9 +2,15 @@
 
 import { axiosInstance } from "@/libs/axios-instance";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function usersPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
   const userQuery = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
@@ -23,6 +29,12 @@ export default function usersPage() {
       userQuery.refetch();
     },
   });
+
+  useEffect(() => {
+    if (status === "unauthenticated" || !session) {
+      router.push("/login");
+    }
+  }, [status, router, session]);
 
   return (
     <div>

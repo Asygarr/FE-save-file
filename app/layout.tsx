@@ -1,25 +1,30 @@
-import type { Metadata } from "next";
+"use client";
+
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import ReactQueryProvider from "@/components/provider/ReactQueryProvider";
+import { usePathname } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
 
-export const metadata: Metadata = {
-  title: "My App Post",
-};
+const disableNavbar = ["/login", "/register", "/"];
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   return (
-    <ReactQueryProvider>
-      <html lang="en">
-        <body>
-          <Navbar />
-          {children}
-        </body>
-      </html>
-    </ReactQueryProvider>
+    <SessionProvider>
+      <ReactQueryProvider>
+        <html lang="en">
+          <body>
+            {!disableNavbar.includes(pathname) && <Navbar />}
+            {children}
+          </body>
+        </html>
+      </ReactQueryProvider>
+    </SessionProvider>
   );
 }

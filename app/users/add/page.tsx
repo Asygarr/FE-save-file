@@ -4,8 +4,11 @@ import { axiosInstance } from "@/libs/axios-instance";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { userSchema } from "@/libs/validation-schema-user";
+import { useRouter } from "next/navigation";
 
 export default function page() {
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -22,8 +25,6 @@ export default function page() {
         password,
         confPassword,
       });
-
-      formik.resetForm();
     },
     validationSchema: userSchema,
   });
@@ -34,6 +35,10 @@ export default function page() {
       const res = await axiosInstance.post("/users", body);
 
       return res;
+    },
+    onSuccess: () => {
+      formik.resetForm();
+      router.push("/users");
     },
   });
 

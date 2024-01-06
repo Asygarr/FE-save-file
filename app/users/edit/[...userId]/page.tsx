@@ -4,12 +4,15 @@ import { axiosInstance } from "@/libs/axios-instance";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { userSchema } from "@/libs/validation-schema-user";
+import { useRouter } from "next/navigation";
 
 export default function page({
   params: { userId },
 }: {
   params: { userId: string };
 }) {
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -50,6 +53,9 @@ export default function page({
       const res = await axiosInstance.patch(`/users/${userId}`, body);
 
       return res;
+    },
+    onSuccess: () => {
+      router.push("/users");
     },
   });
 
